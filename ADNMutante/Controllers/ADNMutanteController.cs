@@ -31,16 +31,16 @@ namespace ADNMutante.Controllers
             _adnMutanteService.SaveMutant(adn.dna, adn.IsMutant.Value);
             return adn.IsMutant.Value ? Ok() : StatusCode(403);
         }
-        [HttpPost]
-        [Route("/mutant2/")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-
-        public IActionResult Mutant2([FromBody] ADN adn)
-        {
-            bool mutante = _adnMutanteService.isMutantParallel(adn.dna);
-            return mutante ? StatusCode(200) : StatusCode(403);
-        }
+        //[HttpPost]
+        //[Route("/mutant2/")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status403Forbidden)]
+        //public IActionResult Mutant2([FromBody] ADN adn)
+        //{
+        //    bool mutante = _adnMutanteService.isMutantParallel(adn.dna);
+        //    _adnMutanteService.SaveMutant(adn.dna, adn.IsMutant.Value);
+        //    return mutante ? StatusCode(200) : StatusCode(403);
+        //}
 
         [HttpGet]
         [Route("/stats")]
@@ -56,12 +56,12 @@ namespace ADNMutante.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            var esMutante = _adnMutanteService.IsMutant(dnaEjemplo);
-            return Ok(esMutante);
-        }
+        //[HttpGet]
+        //public IActionResult Index()
+        //{
+        //    var esMutante = _adnMutanteService.IsMutant(dnaEjemplo);
+        //    return Ok(esMutante);
+        //}
 
     }
 }

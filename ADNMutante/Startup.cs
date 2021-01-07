@@ -10,7 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.OpenApi.Models;
+using System;
 
 namespace ADNMutante
 {
@@ -30,6 +31,7 @@ namespace ADNMutante
             services.AddLogging(builder => builder.ClearProviders().AddEventSourceLogger());
             services.AddDbContext<ADNMutanteDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("AdnMutanteBase")));
             services.AddControllers().AddNewtonsoftJson();
+            AddSwagger(services);
             services.AddOptions();
             services.AddHttpClient();
             services.Configure<ADNMutanteDbContext>(Configuration);
@@ -38,15 +40,38 @@ namespace ADNMutante
             services.AddScoped<IADNMutanteService, ADNMutanteService>();
 
         }
+        private void AddSwagger(IServiceCollection services)
+        {
+            services.AddSwaggerGen(options =>
+            {
+                var groupName = "v1";
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+                options.SwaggerDoc(groupName, new OpenApiInfo
+                {
+                    Title = $"ADN Mutante {groupName}",
+                    Version = groupName,
+                    Description = "ADN Mutante API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Paola Ferrara",
+                        Email = "pao.ferrara@live.com" 
+                    }
+                });
+            });
+        }
+            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ADN Mutante API V1");
+            });
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
