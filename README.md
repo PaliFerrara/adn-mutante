@@ -53,6 +53,21 @@ Evalúa si es mutante o no pasandole un Array de Strings. Cada fila del Array de
 * 403-Forbidden en caso de que no sea mutante
 * 200-Ok Si es mutante
 * 400- Cuándo la cadena de ADN recibida no es válida
+
+# Para ejecutar los endpoint
+
 ## Swagger
-URL para probar los endpoints en localhost:
+URL de la versión productiva:
+* Swagger para probar los endpoint: https://adnmutante.azurewebsites.net/swagger/index.html
+
+### /mutant 
+Se le pasa una cadena de caracteres en este formato: "ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"
+Cada fila debe tener la misma cantidad de caracteres y únicamente los siguientes caracteres: A, C, G, T
+
+### /stats 
+Al ejectularlo, devolverá en un json los siguientes datos:
+* cantidad de humanos
+* cantidad de mutantes
+* ratio 
+URL para probar los endpoints en localhost luego de levantar la aplicación con IISExpress:
 * https://localhost:44380/swagger/index.html
