@@ -14,28 +14,26 @@ namespace ADNMutante
         public static void Main(string[] args)
         {
             string dbName = "ADNMutanteDatabase.db";
-            if (File.Exists(dbName))
-            {
-                File.Delete(dbName);
-            }
-            var optionsBuilder = new DbContextOptionsBuilder<ADNMutanteDbContext>();
 
-            using (var dbContext = new ADNMutanteDbContext(optionsBuilder.Options))
+            if (!File.Exists(dbName))
             {
-                dbContext.Database.EnsureCreated();
-                if (!dbContext.ADNs.Any())
+                var optionsBuilder = new DbContextOptionsBuilder<ADNMutanteDbContext>();
+                using (var dbContext = new ADNMutanteDbContext(optionsBuilder.Options))
                 {
-                    dbContext.ADNs.AddRange(new ADNMutanteDB[]
-                        {
+                    dbContext.Database.EnsureCreated();
+                    if (!dbContext.ADNs.Any())
+                    {
+                        dbContext.ADNs.AddRange(new ADNMutanteDB[]
+                            {
                              new ADNMutanteDB{ Id=1, CadenaADN="ATGCGA CAGTGC TTATGT AGAAGG CCCCTA TCACTG", IsMutant=true },
                              new ADNMutanteDB{ Id=2, CadenaADN="ATTCGA CAGTGC TTTCTC AGAAGT CCACTA TCACTG", IsMutant=false },
                              new ADNMutanteDB{ Id=3, CadenaADN="ATTCGA CAGTGC TTATTT AGAAGT CCACTA TCACTG", IsMutant=false }
-                        });
-                    dbContext.SaveChanges();
+                            });
+                        dbContext.SaveChanges();
+                    }
                 }
             }
             CreateHostBuilder(args).Build().Run();
-
         }
 
 
