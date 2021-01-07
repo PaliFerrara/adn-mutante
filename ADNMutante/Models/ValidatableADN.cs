@@ -6,6 +6,8 @@ namespace ADNMutante.Models
 {
     public class ValidatableADN : IValidatableObject
     {
+        //[RegularExpression("^[A|C|T|G]+$",
+        // ErrorMessage = "La muestra de ADN proporcionada no es válida")]
         public String[] dna { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

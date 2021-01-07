@@ -28,6 +28,7 @@ namespace ADNMutante.Controllers
         public IActionResult Mutant([FromBody] ADN adn)
         {
             adn.IsMutant = _adnMutanteService.IsMutant(adn.dna);
+            _adnMutanteService.SaveMutant(adn.dna, adn.IsMutant.Value);
             return adn.IsMutant.Value ? Ok() : StatusCode(403);
         }
         [HttpPost]

@@ -116,7 +116,6 @@ namespace ADNMutante.Servicios.Services
 
         public async Task SaveMutant(String[] dna, bool isMutant)
         {
-
             try
             {
                 var nuevoMutante = new ADNMutanteDB()
@@ -126,7 +125,7 @@ namespace ADNMutante.Servicios.Services
                 };
                 foreach (var adn in dna)
                 {
-                    nuevoMutante.CadenaADN = nuevoMutante.CadenaADN + adn;
+                    nuevoMutante.CadenaADN = nuevoMutante.CadenaADN + " " + adn;
                 }
                 _adnMutanteRepositorio.Add(nuevoMutante);
                  _adnMutanteRepositorio.SaveChangesAsync();
