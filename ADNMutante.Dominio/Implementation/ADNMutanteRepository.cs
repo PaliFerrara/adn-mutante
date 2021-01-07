@@ -19,6 +19,9 @@ namespace ADNMutante.Dominio.Implementation
             else _logger.LogInformation("Contando humanos");
             return DbContext.ADNs.Count(x => x.IsMutant == isMutant);
         }
-
+        public bool AdnRegistrado(string cadenaADN)
+        {
+            return DbContext.ADNs.Any(x => x.CadenaADN.Equals(cadenaADN));
+        }
     }
 }

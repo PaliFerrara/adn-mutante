@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ADNMutante.Servicios.Services
 {
-    public class ADNMutanteService :  IADNMutanteService
+    public class ADNMutanteService : IADNMutanteService
     {
         protected readonly IADNMutanteRepository _adnMutanteRepositorio;
         protected readonly ILogger<ADNMutanteService> Logger;
@@ -18,7 +18,7 @@ namespace ADNMutante.Servicios.Services
             Logger = logger;
             _adnMutanteRepositorio = adnMutanteRepositorio;
         }
-        
+
         public bool IsMutant(String[] dna)
         {
             bool esMutante = false;
@@ -113,7 +113,7 @@ namespace ADNMutante.Servicios.Services
             long humanos = CantidadHumanos();
             if (mutantes == 0 || humanos == 0)
             {
-                Logger.LogWarning("No se puede calcular el ratio ya que uno de los valores es 0. Cantidad de humanos={humanos} - Cantidad de mutantes={mutantes}",humanos,mutantes);
+                Logger.LogWarning("No se puede calcular el ratio ya que uno de los valores es 0. Cantidad de humanos={humanos} - Cantidad de mutantes={mutantes}", humanos, mutantes);
                 return 0;
             }
             return (double)mutantes / (double)humanos;
@@ -132,9 +132,15 @@ namespace ADNMutante.Servicios.Services
                 {
                     nuevoMutante.CadenaADN = nuevoMutante.CadenaADN + " " + adn;
                 }
-                _adnMutanteRepositorio.Add(nuevoMutante);
-                 _adnMutanteRepositorio.SaveChangesAsync();
-
+                if (!_adnMutanteRepositorio.AdnRegistrado(nuevoMutante.CadenaADN))
+                {
+                    _adnMutanteRepositorio.Add(nuevoMutante);
+                    _adnMutanteRepositorio.SaveChangesAsync();
+                }
+                else
+                {
+                    Logger.LogError("La cadena {nuevoMutante.CadenaADN} ya se encontraba guardada en la base de datos.", nuevoMutante.CadenaADN);
+                }
             }
             catch (Exception ex)
             {
