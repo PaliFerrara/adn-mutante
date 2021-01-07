@@ -68,6 +68,7 @@ Cada fila debe tener la misma cantidad de caracteres y únicamente los siguiente
 Al ejectularlo, devolverá en un json los siguientes datos:
 * cantidad de humanos
 * cantidad de mutantes
-* ratio 
+* ratio
+
 URL para probar los endpoints en localhost luego de levantar la aplicación con IISExpress:
 * https://localhost:44380/swagger/index.html
