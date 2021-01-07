@@ -15,6 +15,8 @@ namespace ADNMutante.Dominio.Implementation
         }
         public long CountMutants(bool isMutant)
         {
+            if (isMutant) _logger.LogInformation("Contando mutantes");
+            else _logger.LogInformation("Contando humanos");
             return DbContext.ADNs.Count(x => x.IsMutant == isMutant);
         }
 

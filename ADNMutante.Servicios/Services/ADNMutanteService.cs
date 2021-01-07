@@ -111,7 +111,12 @@ namespace ADNMutante.Servicios.Services
         {
             long mutantes = CantidadMutantes();
             long humanos = CantidadHumanos();
-            return mutantes == 0 || humanos == 0 ? 0 : ((double)mutantes / (double)humanos);
+            if (mutantes == 0 || humanos == 0)
+            {
+                Logger.LogWarning("No se puede calcular el ratio ya que uno de los valores es 0. Cantidad de humanos={humanos} - Cantidad de mutantes={mutantes}",humanos,mutantes);
+                return 0;
+            }
+            return (double)mutantes / (double)humanos;
         }
 
         public async Task SaveMutant(String[] dna, bool isMutant)
@@ -129,8 +134,12 @@ namespace ADNMutante.Servicios.Services
                 }
                 _adnMutanteRepositorio.Add(nuevoMutante);
                  _adnMutanteRepositorio.SaveChangesAsync();
+
             }
-            catch {
+            catch (Exception ex)
+            {
+                var exception = new Exception("Ocurrió un error al editar el item", ex);
+                Logger.LogError(ex, "No se pudo guardar la cadena {dna}", dna);
             }
         }
         public bool isMutantParallel(string[] dna)

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 
 namespace ADNMutante
@@ -27,6 +28,7 @@ namespace ADNMutante
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(builder => builder.ClearProviders().AddEventSourceLogger());
             services.AddDbContext<ADNMutanteDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("AdnMutanteBase")));
             services.AddControllers().AddNewtonsoftJson();
             services.AddOptions();
